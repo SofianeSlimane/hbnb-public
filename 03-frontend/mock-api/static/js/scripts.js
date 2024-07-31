@@ -8,8 +8,8 @@ document.addEventListener('DOMContentLoaded', () => {
           // Your code to handle form submission
           const email = document.getElementById("email").value;
           const password = document.getElementById("password").value;
-          // console.log(email);
-          // console.log(password);
+          console.log(email);
+          console.log(password);
           await loginUser(email, password);
           
 
@@ -18,6 +18,26 @@ document.addEventListener('DOMContentLoaded', () => {
   checkAuthentication();
   
 });
+
+document.getElementById('country-filter').addEventListener('change', (event) => {
+    // Get the selected country value
+    // Iterate over the places and show/hide them based on the selected country
+    const selected = document.getElementById("country-filter").value
+    console.log(selected);
+    const placesList = document.querySelectorAll(".place-card");
+    console.log(placesList)
+    console.log(Array.isArray(placesList[0]));
+    placesList.forEach(elem => {
+        if (selected != elem.id) {
+            elem.style.display = "none"; 
+        }
+        else {
+            elem.style.display = "block";
+        }
+    });
+});
+
+
 
 async function loginUser(email, password) {
   const response = await fetch('http://127.0.0.1:5000/login', {
@@ -87,6 +107,7 @@ function displayPlaces(places) {
     for (let i = 0; i < places.length; i++){
         const article = document.createElement("article");
         article.classList.add("place-card");
+        article.id = places[i].country_name.toLowerCase();
         article.innerHTML = `<h1>${places[i].description}</h1>
                              <dl>
                                 <dt>Price per night:</dt>
@@ -102,4 +123,19 @@ function displayPlaces(places) {
 
         document.getElementById("places-list").append(article);
     }
+
+    let myArray = [];
+    for (let i = 0; i < places.length; i++) {
+        
+        
+        if (!myArray.includes(places[i].country_name)){
+            const option = document.createElement("option")
+            option.value = places[i].country_name.toLowerCase();
+            option.innerText = places[i].country_name;
+            document.getElementById("country-filter").append(option);
+            myArray.push(places[i].country_name);
+        }
+    }
 }
+
+

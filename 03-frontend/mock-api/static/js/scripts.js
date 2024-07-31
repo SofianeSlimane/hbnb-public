@@ -1,5 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
   const loginForm = document.getElementById('login-form');
+  checkAuthentication();
 
   if (loginForm) {
       loginForm.addEventListener('submit', async (event) => {
@@ -34,3 +35,43 @@ async function loginUser(email, password) {
   }
 }
 
+function checkAuthentication() {
+    const token = getCookie('token');
+    const loginLink = document.getElementById('login-link');
+
+    if (!token) {
+        loginLink.style.display = 'block';
+    } else {
+        loginLink.style.display = 'none';
+        // Fetch places data if the user is authenticated
+        fetchPlaces(token);
+    }
+}
+function getCookie(name) {
+    // Function to get a cookie value by its name
+    // Your code here
+    const cookieArray = document.cookie.split("=");
+    let i = 0;
+    while (i < cookieArray.length){
+        if (cookieArray[i] === name && (i + 1) < cookieArray.length) {
+            return cookieArray[i + 1];
+        }
+        i++;
+    }
+    return null; 
+    
+
+}
+async function fetchPlaces(token) {
+    // Make a GET request to fetch places data
+    // Include the token in the Authorization header
+    // Handle the response and pass the data to displayPlaces function
+    fetch(" http://127.0.0.1:5000/places", {headers: {Authorization: `Bearer ${token}}`}})
+        .then(response => response.json())
+        .then(jso => {
+            for (const obj of jso){
+            console.log(obj);
+            }
+})
+        .catch(console.log('Could not retrieve data'))
+}

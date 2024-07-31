@@ -9,8 +9,9 @@
 <body>
     <header>
         <nav>
-            <a href="login.html" id="login-link">Login</a>
-        </nav>
+        <a href="http://127.0.0.1:5000"><img src="logo.png" class="logo"/></a>
+        <a href="login.html"><button class="login-button">Login</button></a>
+    </nav>
     </header>
     <main>
         <section id="filter">
@@ -21,8 +22,44 @@
         </section>
         <section id="places-list">
             <!-- List of places will be populated dynamically -->
+            <article class="place-card">
+                <h1>Beautiful Beach House</h1>
+                <dl>
+                    <dt>Price per night:</dt>
+                    <dd>$150</dd>
+
+                    <dt>Location:</dt>
+                    <dd><address>Los Angeles, United States</address></dd>
+                </dl>
+                <button class="details-button">View Details</button>
+                </article>
+            <article class="place-card">
+                <h1>A cozy cottage in the countryside.</h1>
+                <dl>
+                    <dt>Price per night:</dt>
+                    <dd>$80</dd>
+
+                    <dt>Location:</dt>
+                    <dd><address>Boston, United States</address></dd>
+                </dl>
+                <button class="details-button">View Details</button>
+                </article>
+            <article class="place-card">
+                <h1>A stylish apartment in downtown.</h1>
+                <dl>
+                    <dt>Price per night:</dt>
+                    <dd>$120</dd>
+
+                    <dt>Location:</dt>
+                    <dd><address>Toronto, Canada</address></dd>
+                </dl>
+                <button class="details-button">View Details</button>
+                </article>
         </section>
     </main>
+    <footer class="main-footer">
+        <small class="copyright-tag">2024 HbnB Evolution. All rights reserved.</small>
+    </footer>
     <script src="scripts.js"></script>
 </body>
 </html>

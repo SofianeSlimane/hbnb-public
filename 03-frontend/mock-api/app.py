@@ -1,5 +1,5 @@
 from uuid import uuid4
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, render_template
 from flask_jwt_extended import JWTManager, create_access_token, jwt_required, get_jwt_identity
 from flask_cors import CORS
 import json
@@ -33,6 +33,10 @@ def login():
 
     access_token = create_access_token(identity=user['id'])
     return jsonify(access_token=access_token)
+
+@app.route('/login', methods=['GET'])
+def login_get():
+    return render_template("login.html")
 
 @app.route('/places', methods=['GET'])
 def get_places():

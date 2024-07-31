@@ -16,7 +16,7 @@ document.addEventListener('DOMContentLoaded', () => {
       });
   }
   checkAuthentication();
-  displayPlaces();
+  
 });
 
 async function loginUser(email, password) {
@@ -68,10 +68,13 @@ async function fetchPlaces(token) {
     // Make a GET request to fetch places data
     // Include the token in the Authorization header
     // Handle the response and pass the data to displayPlaces function
-    await fetch(" http://127.0.0.1:5000/places", {headers: {Authorization: `Bearer ${token}}`}})
+     fetch(" http://127.0.0.1:5000/places", {headers: {Authorization: `Bearer ${token}}`}})
         .then(response => response.json())
         .then(jso =>  displayPlaces(jso))
-        .catch(console.log('Could not retrieve data'))
+        .catch((error) => {
+            throw new Error(`${error.message}`);
+
+        })
 }
 
 function displayPlaces(places) {
@@ -81,19 +84,21 @@ function displayPlaces(places) {
     // Append the created element to the places list
     
     document.getElementById("places-list").innerHTML = "";
-    console.log(places);
-    for (const place in places){
+    for (let i = 0; i < places.length; i++){
         const article = document.createElement("article");
         article.classList.add("place-card");
-        article.innerHTML = `<h1>${place.description}</h1>
+        article.innerHTML = `<h1>${places[i].description}</h1>
                              <dl>
                                 <dt>Price per night:</dt>
-                                <dd>${place.price_per_night}</dd>
+                                <dd>${places[i].price_per_night}</dd>
 
                                 <dt>Location:</dt>
-                                <dd> ${place.city_name}, ${place.country_name} ></dico></dd>
+                                <dd> ${places[i].city_name}, ${places[i].country_name} ></dico></dd>
                             </dl>
                             <button class="details-button">View Details</button>`;
+        if (i % 2 === 0) {
+            article.innerHTML += '<br>';
+        }
 
         document.getElementById("places-list").append(article);
     }

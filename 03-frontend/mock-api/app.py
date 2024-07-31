@@ -37,6 +37,9 @@ def login():
 @app.route('/login', methods=['GET'])
 def login_get():
     return render_template("login.html")
+@app.route('/', methods=['GET'])
+def home():
+    return render_template("index.html")
 
 @app.route('/places', methods=['GET'])
 def get_places():

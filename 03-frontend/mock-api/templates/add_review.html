@@ -4,12 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Add Review</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='stylesheets/styles.css') }}">
 </head>
 <body>
 <header>
     <nav>
-    <a href="http://127.0.0.1:5000"><img src="logo.png" class="logo"/></a>
+    <a href="http://127.0.0.1:5000"><img src="{{ url_for('static', filename='images/logo.png') }}" class="logo"/></a>
     <a href="login.html"><button class="login-button">Login</button></a>
 </nav>
 </header>
@@ -17,7 +17,7 @@
         <form id="review-form">
             <h2>Add a Review</h2>
             <label for="place">Place:</label>
-            <input type="text" id="place" name="place" readonly>
+            <input type="text" id="place" name="place" required>
             
             <label for="review">Review:</label>
             <textarea id="review" name="review" required></textarea>
@@ -25,7 +25,7 @@
             <button type="submit">Submit</button>
         </form>
     </main>
-    <script src="scripts.js"></script>
+    <script src="{{ url_for('static', filename='js/scripts.js') }}"></script>
 </body>
 <footer class="main-footer">
     <small class="copyright-tag">2024 HbnB Evolution. All rights reserved.</small>

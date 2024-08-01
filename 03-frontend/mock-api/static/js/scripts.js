@@ -1,4 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
+    console.log(window.location.href);
+    console.log(window.location.href.startsWith("http://127.0.0.1:5000/add-review"))
   const loginForm = document.getElementById('login-form');
   const placeDetails = document.getElementById("place-details");
 const queryString = getPlaceIdFromURL();
@@ -33,6 +35,33 @@ console.log("test");
   if (window.location.href === "http://127.0.0.1:5000/"){
     console.log("I am about to check auth before displaying places");
     checkAuthentication();
+  }
+
+  if (window.location.href.startsWith("http://127.0.0.1:5000/add-review")){
+    console.log("The url is add-review");
+    document.addEventListener('DOMContentLoaded', () => {
+        const reviewForm = document.getElementById('review-form');
+        
+        const token = checkAuthentication3();
+        const placeId = getPlaceIdFromURL();
+  
+        if (reviewForm) {
+            console.log("Entering if reviewform")
+            reviewForm.addEventListener('submit', async (event) => {
+                event.preventDefault();
+                console.log("Entering review form event")
+                // Get review text from form
+                // Make AJAX request to submit review
+                // Handle the response
+                const reviewText = document.getElementById("review").innerText;
+                console.log(reviewText);
+                handleResponse(submitReview(token, placeId, reviewText));
+                
+
+            });
+        }
+    });
+
   }
   console.log("I am here");
   
@@ -239,3 +268,37 @@ function displayPlaceDetails(place) {
 }
 
 
+function checkAuthentication3() {
+    const token = getCookie('token');
+      if (!token) {
+          window.location.href = '/';
+      }
+      return token;
+}
+
+async function submitReview(token, placeId, reviewText) {
+    // Make a POST request to submit review data
+    // Include the token in the Authorization header
+    // Send placeId and reviewText in the request body
+    // Handle the response
+    response = await fetch(`http://127.0.0.1:5000//places/${placeId}/reviews`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}}`
+        },
+        body: JSON.stringify({ placeId, reviewText })
+    });
+    handleResponse(response);
+
+}
+
+
+function handleResponse(response) {
+    if (response.ok) {
+        alert('Review submitted successfully!');
+        document.getElementById('review-form').innerHTML = "";
+    } else {
+        alert('Failed to submit review');
+    }
+}

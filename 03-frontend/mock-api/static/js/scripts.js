@@ -176,15 +176,19 @@ function checkAuthentication2() {
     const addReviewSection = document.getElementById('add-review');
     const loginLink = document.getElementById('login-link');
     const placeId = getPlaceIdFromURL();
+    const placeDetails = document.getElementById("place-details");
 
     if (!token) {
         console.log("I don't have a token");
         addReviewSection.style.display = 'none';
         loginLink.style.display = 'block';
+        placeDetails.style.display = 'block';
+        fetchPlaceDetails(token, placeId);
     } else {
         console.log("I have a token")
         addReviewSection.style.display = 'block';
         loginLink.style.display = 'none';
+        placeDetails.style.display = 'block';
         // Store the token for later use
         fetchPlaceDetails(token, placeId);
     }

@@ -10,7 +10,7 @@ console.log("test");
         if (queryString) {
             console.log("I am in query string");
             checkAuthentication2();
-            return
+            
         }
     }
   if (loginForm) {
@@ -171,14 +171,20 @@ function getPlaceIdFromURL() {
 
 
 function checkAuthentication2() {
+    console.log("Checking authentification");
     const token = getCookie('token');
     const addReviewSection = document.getElementById('add-review');
+    const loginLink = document.getElementById('login-link');
     const placeId = getPlaceIdFromURL();
 
     if (!token) {
+        console.log("I don't have a token");
         addReviewSection.style.display = 'none';
+        loginLink.style.display = 'block';
     } else {
+        console.log("I have a token")
         addReviewSection.style.display = 'block';
+        loginLink.style.display = 'none';
         // Store the token for later use
         fetchPlaceDetails(token, placeId);
     }
@@ -223,22 +229,9 @@ function displayPlaceDetails(place) {
                             <button class="details-button">View Details</button>`;
        
 
-        document.body.append(article);
+                            document.getElementById("place-details").append(article);
     
 
 }
 
 
-function checkAuthentication2() {
-    const token = getCookie('token');
-    const addReviewSection = document.getElementById('add-review');
-    const placeId = getPlaceIdFromURL();
-
-    if (!token) {
-        addReviewSection.style.display = 'none';
-    } else {
-        addReviewSection.style.display = 'block';
-        // Store the token for later use
-        fetchPlaceDetails(token, placeId);
-    }
-}

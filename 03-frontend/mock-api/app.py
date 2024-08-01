@@ -20,6 +20,11 @@ with open('data/places.json') as f:
 # In-memory storage for new reviews
 new_reviews = []
 
+@app.route('/details', methods=['GET'])
+def show_details():
+    return render_template("place.html")
+
+
 @app.route('/login', methods=['POST'])
 def login():
     email = request.json.get('email')

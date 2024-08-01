@@ -1,7 +1,13 @@
 document.addEventListener('DOMContentLoaded', () => {
   const loginForm = document.getElementById('login-form');
- 
-
+  const placeDetails = document.getElementById("place-details");
+const queryString = getPlaceIdFromURL();
+const countryFilter = document.getElementById('country-filter');
+    if (placeDetails){
+        if (queryString) {
+            checkAuthentication2();
+        }
+    }
   if (loginForm) {
       loginForm.addEventListener('submit', async (event) => {
           event.preventDefault();
@@ -11,31 +17,39 @@ document.addEventListener('DOMContentLoaded', () => {
           console.log(email);
           console.log(password);
           await loginUser(email, password);
+          checkAuthentication();
           
 
       });
   }
-  checkAuthentication();
-  
-});
-
-document.getElementById('country-filter').addEventListener('change', (event) => {
-    // Get the selected country value
-    // Iterate over the places and show/hide them based on the selected country
-    const selected = document.getElementById("country-filter").value
-    console.log(selected);
-    const placesList = document.querySelectorAll(".place-card");
-    console.log(placesList)
-    console.log(Array.isArray(placesList[0]));
-    placesList.forEach(elem => {
-        if (selected != elem.id) {
-            elem.style.display = "none"; 
-        }
-        else {
-            elem.style.display = "block";
-        }
+  if (countryFilter){
+    document.getElementById('country-filter').addEventListener('change', (event) => {
+        // Get the selected country value
+        // Iterate over the places and show/hide them based on the selected country
+        const selected = document.getElementById("country-filter").value
+        console.log(selected);
+        const placesList = document.querySelectorAll(".place-card");
+        console.log(placesList)
+        console.log(Array.isArray(placesList[0]));
+        placesList.forEach(elem => {
+            if (selected != elem.id) {
+                elem.style.display = "none"; 
+            }
+            else {
+                elem.style.display = "block";
+            }
+        });
     });
-});
+  }
+  
+  
+ 
+  
+   
+})
+
+
+
 
 
 
@@ -50,7 +64,7 @@ async function loginUser(email, password) {
   if (response.ok) {
       const data = await response.json();
       document.cookie = `token=${data.access_token}; path=/`;
-      window.location.href = '/places';
+      window.location.href = '/';
       console.log(document.cookie);
   } else {
       alert('Login failed: ' + response.statusText);
@@ -114,12 +128,10 @@ function displayPlaces(places) {
                                 <dd>${places[i].price_per_night}</dd>
 
                                 <dt>Location:</dt>
-                                <dd> ${places[i].city_name}, ${places[i].country_name} ></dico></dd>
+                                <dd> ${places[i].city_name}, ${places[i].country_name}</dd>
                             </dl>
                             <button class="details-button">View Details</button>`;
-        if (i % 2 === 0) {
-            article.innerHTML += '<br>';
-        }
+       
 
         document.getElementById("places-list").append(article);
     }
@@ -139,3 +151,85 @@ function displayPlaces(places) {
 }
 
 
+
+function getPlaceIdFromURL() {
+    // Extract the place ID from window.location.search
+    // Your code here
+    const urlParameters = new URLSearchParams(window.location.search);
+    console.log(urlParameters.get('place'));
+    return urlParameters.get('place');
+}
+
+
+function checkAuthentication2() {
+    const token = getCookie('token');
+    const addReviewSection = document.getElementById('add-review');
+    const placeId = getPlaceIdFromURL();
+
+    if (!token) {
+        addReviewSection.style.display = 'none';
+    } else {
+        addReviewSection.style.display = 'block';
+        // Store the token for later use
+        fetchPlaceDetails(token, placeId);
+    }
+}
+
+
+
+async function fetchPlaceDetails(token, placeId) {
+    // Make a GET request to fetch place details
+    // Include the token in the Authorization header
+    // Handle the response and pass the data to displayPlaceDetails function
+    const place_id = getPlaceIdFromURL();
+    await fetch(`http://127.0.0.1:5000/places/${placeId}`, {headers: {Authorization: `Bearer ${token}}`}})
+    .then(response => response.json())
+    .then(data => displayPlaceDetails(data))
+    .catch("Could not retrive place details");
+}
+
+function displayPlaceDetails(place) {
+    // Clear the current content of the place details section
+    // Create elements to display the place details (name, description, location, images)
+    // Append the created elements to the place details section
+    document.getElementById("place-details").innerHTML = "";
+    console.log(place);
+    const article = document.createElement("article");
+        article.id = place.country_name.toLowerCase();
+        article.innerHTML = `<h1>${place.description}</h1>
+                             <dl>
+
+                                <dt>Host:</dt>
+                                <dd>${place.host_name}</dd>
+                                
+                                <dt>Price per night:</dt>
+                                <dd>${place.price_per_night}</dd>
+
+                                <dt>Location:</dt>
+                                <dd> ${place.city_name}, ${place.country_name}</dd>
+                                
+                                <dt>Amenities:</dt>
+                                <dd> ${place.amenities.join()}</dd>
+                            </dl>
+                            <button class="details-button">View Details</button>`;
+       
+
+        document.body.append(article);
+    
+
+}
+
+
+function checkAuthentication2() {
+    const token = getCookie('token');
+    const addReviewSection = document.getElementById('add-review');
+    const placeId = getPlaceIdFromURL();
+
+    if (!token) {
+        addReviewSection.style.display = 'none';
+    } else {
+        addReviewSection.style.display = 'block';
+        // Store the token for later use
+        fetchPlaceDetails(token, placeId);
+    }
+}

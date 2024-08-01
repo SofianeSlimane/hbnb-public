@@ -2,13 +2,19 @@ document.addEventListener('DOMContentLoaded', () => {
   const loginForm = document.getElementById('login-form');
   const placeDetails = document.getElementById("place-details");
 const queryString = getPlaceIdFromURL();
+console.log("test");
 const countryFilter = document.getElementById('country-filter');
+console.log("test");
     if (placeDetails){
+        console.log("I am in place details !")
         if (queryString) {
+            console.log("I am in query string");
             checkAuthentication2();
+            return
         }
     }
   if (loginForm) {
+    console.log("I am in login form");
       loginForm.addEventListener('submit', async (event) => {
           event.preventDefault();
           // Your code to handle form submission
@@ -17,36 +23,39 @@ const countryFilter = document.getElementById('country-filter');
           console.log(email);
           console.log(password);
           await loginUser(email, password);
-          checkAuthentication();
+        
           
 
       });
   }
-  if (countryFilter){
-    document.getElementById('country-filter').addEventListener('change', (event) => {
-        // Get the selected country value
-        // Iterate over the places and show/hide them based on the selected country
-        const selected = document.getElementById("country-filter").value
-        console.log(selected);
-        const placesList = document.querySelectorAll(".place-card");
-        console.log(placesList)
-        console.log(Array.isArray(placesList[0]));
-        placesList.forEach(elem => {
-            if (selected != elem.id) {
-                elem.style.display = "none"; 
-            }
-            else {
-                elem.style.display = "block";
-            }
-        });
-    });
+
+  })
+  if (window.location.href === "http://127.0.0.1:5000/"){
+    console.log("I am about to check auth before displaying places");
+    checkAuthentication();
   }
+  console.log("I am here");
   
+  document.getElementById('country-filter').addEventListener('change', (event) => {
+    
+    // Get the selected country value
+    // Iterate over the places and show/hide them based on the selected country
+    const selected = document.getElementById("country-filter").value
+    console.log(selected);
+    const placesList = document.querySelectorAll(".place-card");
+    console.log(placesList)
+    console.log(Array.isArray(placesList[0]));
+    placesList.forEach(elem => {
+        if (selected != elem.id) {
+            elem.style.display = "none"; 
+        }
+        else {
+            elem.style.display = "block";
+        }
+    });
+});
   
- 
-  
-   
-})
+
 
 
 
@@ -116,7 +125,7 @@ function displayPlaces(places) {
     // Iterate over the places data
     // For each place, create a div element and set its content
     // Append the created element to the places list
-    
+    console.log("I am about to display places")
     document.getElementById("places-list").innerHTML = "";
     for (let i = 0; i < places.length; i++){
         const article = document.createElement("article");

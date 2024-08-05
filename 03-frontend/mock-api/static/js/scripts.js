@@ -42,20 +42,21 @@ console.log("test");
     document.addEventListener('DOMContentLoaded', () => {
         const reviewForm = document.getElementById('review-form');
         
-        const token = checkAuthentication3();
-        const placeId = getPlaceIdFromURL();
+        
   
         if (reviewForm) {
             console.log("Entering if reviewform")
             reviewForm.addEventListener('submit', async (event) => {
+                const token = checkAuthentication3();
+                const placeId = getPlaceIdFromURL();
                 event.preventDefault();
                 console.log("Entering review form event")
                 // Get review text from form
                 // Make AJAX request to submit review
                 // Handle the response
-                const reviewText = document.getElementById("review").innerText;
-                console.log(reviewText);
-                handleResponse(submitReview(token, placeId, reviewText));
+                const reviewText = document.getElementById("review").value;
+                
+                submitReview(token, placeId, reviewText);
                 
 
             });
@@ -281,14 +282,15 @@ async function submitReview(token, placeId, reviewText) {
     // Include the token in the Authorization header
     // Send placeId and reviewText in the request body
     // Handle the response
+    console.log(reviewText);
     response = await fetch(`http://127.0.0.1:5000//places/${placeId}/reviews`, {
         method: 'POST',
         headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}}`
+          "Content-Type": 'application/json',
+          Authorization: `Bearer ${token}`
         },
-        body: JSON.stringify({ placeId, reviewText })
-    });
+        body: JSON.stringify({ review: reviewText, rating: document.getElementById("review").value })
+  });
     handleResponse(response);
 
 }

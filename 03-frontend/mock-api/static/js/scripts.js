@@ -1,12 +1,8 @@
 document.addEventListener('DOMContentLoaded', () => {
-    console.log(window.location.href);
-    console.log(window.location.href.startsWith("http://127.0.0.1:5000/add-review"))
-  const loginForm = document.getElementById('login-form');
-  const placeDetails = document.getElementById("place-details");
-const queryString = getPlaceIdFromURL();
-console.log("test");
-const countryFilter = document.getElementById('country-filter');
-console.log("test");
+    const loginForm = document.getElementById('login-form');
+    const placeDetails = document.getElementById("place-details");
+    const queryString = getPlaceIdFromURL();
+    const countryFilter = document.getElementById('country-filter');
     if (placeDetails){
         console.log("I am in place details !")
         if (queryString) {
@@ -45,9 +41,9 @@ console.log("test");
         
   
         if (reviewForm) {
-            console.log("Entering if reviewform")
-            reviewForm.addEventListener('submit', async (event) => {
                 const token = checkAuthentication3();
+                console.log("Entering if reviewform")
+                reviewForm.addEventListener('submit', async (event) => {
                 const placeId = getPlaceIdFromURL();
                 event.preventDefault();
                 console.log("Entering review form event")
@@ -271,10 +267,18 @@ function displayPlaceDetails(place) {
 
 function checkAuthentication3() {
     const token = getCookie('token');
+    const loginLink = document.getElementById('login-link');
       if (!token) {
+          console.log("No token");
           window.location.href = '/';
+          loginLink.style.display = 'block';
+          
       }
+      else {
+        console.log("Token present");
+        loginLink.style.display = 'none';
       return token;
+      }
 }
 
 async function submitReview(token, placeId, reviewText) {
@@ -283,13 +287,13 @@ async function submitReview(token, placeId, reviewText) {
     // Send placeId and reviewText in the request body
     // Handle the response
     console.log(reviewText);
-    response = await fetch(`http://127.0.0.1:5000//places/${placeId}/reviews`, {
+    response = await fetch(`http://127.0.0.1:5000/places/${placeId}/reviews`, {
         method: 'POST',
         headers: {
           "Content-Type": 'application/json',
           Authorization: `Bearer ${token}`
         },
-        body: JSON.stringify({ review: reviewText, rating: document.getElementById("review").value })
+        body: JSON.stringify({ review: reviewText, rating: document.getElementById("review").value})
   });
     handleResponse(response);
 

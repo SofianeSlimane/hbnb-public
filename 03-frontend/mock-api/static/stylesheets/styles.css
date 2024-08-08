@@ -20,8 +20,14 @@ header {
     color: #fff;
     padding: 1rem;
 }
-
-nav a {
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+nav a button {
+    border: none;
+    background-color: #333;
     color: #fff;
     text-decoration: none;
     margin-left: 1rem;
@@ -43,10 +49,9 @@ main {
     margin-bottom: 50px;
 }
 #places-list {
-    display: flex;
-    justify-content: space-around;
-    align-content: center;
-    
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+   
 }
 .details-button {
     color: white;

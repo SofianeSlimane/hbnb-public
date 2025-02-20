@@ -2,6 +2,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const loginForm = document.getElementById('login-form');
     const placeDetails = document.getElementById("place-details");
     const queryString = getPlaceIdFromURL();
+    const buttonLogin = document.getElementById("login-link")
     const countryFilter = document.getElementById('country-filter');
     if (placeDetails){
         console.log("I am in place details !")
@@ -33,7 +34,7 @@ document.addEventListener('DOMContentLoaded', () => {
     checkAuthentication();
   }
 
-  if (window.location.href.startsWith("http://127.0.0.1:5000/add-review")){
+  if (window.location.href === "http://127.0.0.1:5000/add-review"){
     console.log("The url is add-review");
     document.addEventListener('DOMContentLoaded', () => {
         const reviewForm = document.getElementById('review-form');
@@ -100,7 +101,8 @@ async function loginUser(email, password) {
       const data = await response.json();
       document.cookie = `token=${data.access_token}; path=/`;
       window.location.href = '/';
-      console.log(document.cookie);
+      console.log("Login successful");
+      console.log(data.access_token)
   } else {
       alert('Login failed: ' + response.statusText);
   }
@@ -108,26 +110,37 @@ async function loginUser(email, password) {
 
 function checkAuthentication() {
     const token = getCookie('token');
-    const loginLink = document.getElementById('login-link');
+    const loginButton = document.getElementById('login-link');
 
     if (!token) {
-        loginLink.style.display = 'block';
+        loginButton.style.display = 'block';
+        console.log("No token");
     } else {
-        loginLink.style.display = 'none';
+        loginButton.style.display = 'none';
         // Fetch places data if the user is authenticated
+        console.log("I have a token");
         fetchPlaces(token);
     }
 }
 function getCookie(name) {
     // Function to get a cookie value by its name
     // Your code here
-    const cookieArray = document.cookie.split("=");
+    console.log(document.cookie)
+    const cookieArray = document.cookie.split(";");
+
     let i = 0;
+    const myObj = {}
     while (i < cookieArray.length){
-        if (cookieArray[i] === name && (i + 1) < cookieArray.length) {
-            return cookieArray[i + 1];
-        }
+        // if (cookieArray[i] === name && (i + 1) < cookieArray.length) {
+        //     return cookieArray[i + 1];
+        // }
+        // i++;
+        myObj[cookieArray[i].split("=")[0].trim()] = cookieArray[i].split("=")[1];
         i++;
+    }
+    console.log(myObj.token)
+    if (myObj.token) {
+        return myObj.token;
     }
     return null; 
     

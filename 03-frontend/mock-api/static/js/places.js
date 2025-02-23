@@ -77,6 +77,7 @@ export function displayPlaceDetails(place) {
 // Clear the current content of the place details section
 // Create elements to display the place details (name, description, location, images)
 // Append the created elements to the place details section
+console.log(typeof place.country_name);
 document.getElementById("place-details").innerHTML = "";
 
 const article = document.createElement("article");

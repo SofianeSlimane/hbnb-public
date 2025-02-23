@@ -1,5 +1,6 @@
 export function handleResponse(response) {
     if (response.ok) {
+        window.location.href = "/";
         alert('Review submitted successfully!');
         
     } else {
@@ -24,5 +25,9 @@ export function getCookie(name) {
         return myObj.token;
     }
     return null; 
+    
+}
+
+export function deleteJWT() {
     
 }

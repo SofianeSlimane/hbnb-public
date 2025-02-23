@@ -105,7 +105,7 @@ displayReviews(place.reviews)
 }
 
 
-export function setfilterPlacesEvent() {
+export function setFilterPlacesEvent() {
     document.getElementById('country-filter').addEventListener('change', (event) => {
 
         // Get the selected country value

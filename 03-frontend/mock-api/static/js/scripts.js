@@ -1,7 +1,8 @@
 import { checkAuthentication, loginUser } from './auth.js';
-import {displayPlaceDetails, fetchPlaceDetails, getPlaceIdFromURL, setfilterPlacesEvent} from './places.js';
 import {setReviewFormEvent, submitReview} from './review.js';
 import {getCookie, handleResponse} from './http.js';
+import {fetchPlaces, setViewDetailsButtonEvent, setFilterPlacesEvent, fetchPlaceDetails, getPlaceIdFromURL} from './places.js';
+
 
 document.addEventListener('DOMContentLoaded', () => {
 
@@ -18,11 +19,20 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
     setLoginFormEvent();
-    setReviewFormEvent();
-    setViewDetailsButtonEvent();
+    if (window.location.href.startsWith("http://127.0.0.1:5000/add-review")) {
+
+        setReviewFormEvent();
+    }
+    if (window.location.href === "http://127.0.0.1:5000/") {
+        
+        setViewDetailsButtonEvent();
+        setFilterPlacesEvent();
+    }
 })
 
-
+  if (window.location.href === "http://127.0.0.1:5000/") {
+    fetchPlaces(getCookie('token'));
+  }
   if (window.location.href.startsWith("http://127.0.0.1:5000/")){
     checkAuthentication();
   }
@@ -39,6 +49,12 @@ document.addEventListener('DOMContentLoaded', () => {
         window.location.href = '/login';
     }
   }
+
+    if (window.location.href.startsWith("http://127.0.0.1:5000/add-review")) {
+        if (!getCookie('token')) {
+            window.location.href = '/login';
+        }
+    }
 
   
 function checkAuthentication2() {

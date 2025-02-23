@@ -12,7 +12,7 @@ export function checkAuthentication() {
         loginButton.style.display = 'none';
         // Fetch places data if the user is authenticated
   
-        fetchPlaces(token);
+        
     }
 }
 

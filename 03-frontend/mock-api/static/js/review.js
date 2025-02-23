@@ -1,10 +1,12 @@
+import { checkAuthentication } from "./auth.js";
+
 export function setReviewFormEvent(){
     const reviewForm = document.getElementById('review-form');
         
         
   
         if (reviewForm) {
-                const token = checkAuthentication3();
+                checkAuthentication();
                 reviewForm.addEventListener('submit', async (event) => {
                 const placeId = getPlaceIdFromURL();
                 event.preventDefault();

@@ -43,7 +43,7 @@ main {
     border: 1px solid #ddd;
     border-radius: 10px;
     flex-basis: 25%;
-    box-shadow: 10px 5px 5px rgb(97, 92, 92);
+    box-shadow: 10px 5px 5px #E9E9E9;
 }
 .place-card h1 {
     font-size: 1.5rem;
@@ -75,7 +75,7 @@ main {
 }
 .place-card {
     width: 250px;
-    border: 0.5px solid black;
+    border: 0.5px solid #DDDDDD;
     border-radius: 30px;
     text-align: center;
     align-items: center;
@@ -85,7 +85,7 @@ main {
 .main-footer {
     height: 100px;
     color: white;
-    background-color: red;
+    background-color: #FF9800;
     padding: 40px 0;
     text-align: center;
 }

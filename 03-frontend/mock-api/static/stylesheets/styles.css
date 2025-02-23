@@ -121,3 +121,16 @@ main {
 #main-title {
     text-align: center;
 }
+.login-button {
+    background-color: #FF9800;
+
+}
+#login-link {
+    background-color: #FF9800;
+    text-decoration: none;
+}
+
+#undecored-link:visited {
+text-decoration: none;
+}
+

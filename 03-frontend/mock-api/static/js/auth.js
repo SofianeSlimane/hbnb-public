@@ -42,7 +42,6 @@ export function setLogOutButtonEvent(){
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({ email, password }),
                 headers: {Authorization: `Bearer ${getCookie('token')}`}
             });
             if (response.ok) {

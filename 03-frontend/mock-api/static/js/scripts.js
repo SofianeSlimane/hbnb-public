@@ -1,5 +1,5 @@
 import { checkAuthentication, loginUser } from './auth.js';
-import {displayPlaceDetails, fetchPlaceDetails, getPlaceIdFromURL} from './places.js';
+import {displayPlaceDetails, fetchPlaceDetails, getPlaceIdFromURL, setfilterPlacesEvent} from './places.js';
 import {setReviewFormEvent, submitReview} from './review.js';
 import {getCookie, handleResponse} from './http.js';
 
@@ -19,50 +19,28 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     setLoginFormEvent();
     setReviewFormEvent();
+    setViewDetailsButtonEvent();
 })
 
 
-  if (window.location.href === "http://127.0.0.1:5000/"){
-    console.log("I am about to check auth before displaying places");
+  if (window.location.href.startsWith("http://127.0.0.1:5000/")){
     checkAuthentication();
   }
 
+  if (window.location.href.startsWith("http://127.0.0.1:5000/details/")){
+    console.log("heyy")
+    checkAuthentication();
+    const id = getPlaceIdFromURL();
+    const token = getCookie('token');
+    if (token) {
 
-  console.log("I am here");
+        fetchPlaceDetails(token, id);
+    } else {
+        window.location.href = '/login';
+    }
+  }
+
   
-  document.getElementById('country-filter').addEventListener('change', (event) => {
-    
-    // Get the selected country value
-    // Iterate over the places and show/hide them based on the selected country
-    const selected = document.getElementById("country-filter").value
-    console.log(selected);
-    const placesList = document.querySelectorAll(".place-card");
-    console.log(placesList)
-    console.log(Array.isArray(placesList[0]));
-    placesList.forEach(elem => {
-        if (selected != elem.id) {
-            elem.style.display = "none"; 
-        }
-        else {
-            elem.style.display = "block";
-        }
-    });
-});
-  
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 function checkAuthentication2() {
     console.log("Checking authentification");
     const token = getCookie('token');
@@ -126,8 +104,6 @@ function setLoginFormEvent() {
             await loginUser(email, password);
           
         });
-    }  else if (windows.location.pathname === "/login" && !loginForm) {
-        alert("Login form not found");
     }
 }
 

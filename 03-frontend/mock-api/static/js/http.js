@@ -12,7 +12,6 @@ export function handleResponse(response) {
 export function getCookie(name) {
     // Function to get a cookie value by its name
     // Your code here
-    console.log(document.cookie)
     const cookieArray = document.cookie.split(";");
 
     let i = 0;
@@ -21,7 +20,6 @@ export function getCookie(name) {
         myObj[cookieArray[i].split("=")[0].trim()] = cookieArray[i].split("=")[1];
         i++;
     }
-    console.log(myObj.token)
     if (myObj.token) {
         return myObj.token;
     }

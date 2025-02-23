@@ -1,4 +1,5 @@
 import {getCookie} from './http.js';
+import {fetchPlaces} from './places.js';
 
 export function checkAuthentication() {
     const token = getCookie('token');
@@ -6,11 +7,11 @@ export function checkAuthentication() {
 
     if (!token) {
         loginButton.style.display = 'block';
-        console.log("No token");
+       
     } else {
         loginButton.style.display = 'none';
         // Fetch places data if the user is authenticated
-        console.log("I have a token");
+  
         fetchPlaces(token);
     }
 }
@@ -18,6 +19,7 @@ export function checkAuthentication() {
 
 
 export async function loginUser(email, password) {
+    console.log("hello")
   const response = await fetch('http://127.0.0.1:5000/login', {
       method: 'POST',
       headers: {

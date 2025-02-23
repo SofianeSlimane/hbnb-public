@@ -16,7 +16,7 @@ body {
 }
 
 header {
-    background-color: #333;
+    background-color: #FF9800;
     color: #fff;
     padding: 1rem;
 }
@@ -42,6 +42,12 @@ main {
     padding: 10px;
     border: 1px solid #ddd;
     border-radius: 10px;
+    flex-basis: 25%;
+    box-shadow: 10px 5px 5px rgb(97, 92, 92);
+}
+.place-card h1 {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
 }
 
 #filter {
@@ -49,14 +55,23 @@ main {
     margin-bottom: 50px;
 }
 #places-list {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+   
    
 }
 .details-button {
     color: white;
-    background-color: red;
-    border-radius: 30px;
+    background-color: #FF9800;
+    border-radius: 10px;
+    margin-top: 10%;
+    padding: 10px;
+    text-decoration: none;
+    display: inline-block;
+    width: 50%;
+    
 }
 .place-card {
     width: 250px;
@@ -76,7 +91,7 @@ main {
 }
 
 #place-details {
-    border: 1px solid grey;
+    border: 1px solid rgb(100, 93, 93);
     border-radius: 30px;
 }
 #place-details {
@@ -89,4 +104,20 @@ main {
     height: 150px;
     border: 1px solid grey;
     border-radius: 30px;
+}
+
+#reviews {
+    display: flex;
+    flex-direction: column;
+}
+
+#reviews article {
+    margin: 10px;
+    padding: 10px;
+    border: 1px solid grey;
+    border-radius: 30px;
+}
+
+#main-title {
+    text-align: center;
 }

@@ -1,5 +1,5 @@
 from uuid import uuid4
-from flask import Flask, request, jsonify, render_template
+from flask import Flask, request, jsonify, render_template, make_response, redirect
 from flask_jwt_extended import JWTManager, create_access_token, jwt_required, get_jwt_identity
 from flask_cors import CORS
 import json
@@ -115,6 +115,15 @@ def add_review(place_id):
 
     new_reviews.append(new_review)
     return jsonify({"msg": "Review added"}), 201
+
+
+
+@app.route('/log-out', methods=['POST'])
+@jwt_required()
+def log_out():
+    response = make_response(redirect('/'))
+    response.set_cookie('token', '', expires=0)
+    return response
 
 if __name__ == '__main__':
     app.run(debug=True)

@@ -143,6 +143,8 @@ export function displayReviews(reviews) {
 
 
 
-export function setViewDetailsButtonEvent(){
-
+export function getPlaceIdFromForm() {
+    // Extract the place ID from the form
+    // Your code here
+    return document.getElementById("place").value;
 }

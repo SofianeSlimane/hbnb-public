@@ -1,6 +1,6 @@
 import { checkAuthentication } from "./auth.js";
 import { getCookie } from "./http.js";
-import { getPlaceIdFromURL } from "./places.js";
+import { getPlaceIdFromURL, getPlaceIdFromForm } from "./places.js";
 export function setReviewFormEvent(){
     const reviewForm = document.getElementById('review-form');
         console.log("reviewForm", reviewForm);
@@ -11,7 +11,7 @@ export function setReviewFormEvent(){
                 checkAuthentication();
                 reviewForm.addEventListener('submit', async (event) => {
                 event.preventDefault();
-                const placeId = getPlaceIdFromURL();
+                const placeId = window.location.href.startsWith("https://127.0.0.1:5000/details?place=") ? getPlaceIdFromURL() : getPlaceIdFromForm();
                 // Get review text from form
                 // Make AJAX request to submit review
                 // Handle the response

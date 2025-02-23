@@ -31,3 +31,26 @@ export async function loginUser(email, password) {
       alert('Login failed');
   }
 }
+
+export function setLogOutButtonEvent(){
+    const logoutButton = checkAuthentication() ? document.getElementById('logout-button') : null;
+    console.log("logoutButton", logoutButton);
+    if (logoutButton) {
+        logoutButton.addEventListener('click', async () => {
+            const response = await fetch('http://127.0.0.1:5000/log-out', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ email, password }),
+                headers: {Authorization: `Bearer ${getCookie('token')}`}
+            });
+            if (response.ok) {
+                window.location.href = '/';
+          
+            } else {
+                alert('Login failed');
+            }
+        })
+    }
+}

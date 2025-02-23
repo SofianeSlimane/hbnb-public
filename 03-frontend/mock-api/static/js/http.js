@@ -28,6 +28,6 @@ export function getCookie(name) {
     
 }
 
-export function deleteJWT() {
+export function deleteJWT(){
     
 }

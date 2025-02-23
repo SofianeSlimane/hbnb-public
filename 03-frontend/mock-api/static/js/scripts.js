@@ -1,12 +1,13 @@
-import { checkAuthentication, loginUser } from './auth.js';
+import { checkAuthentication, loginUser, setLogOutButtonEvent } from './auth.js';
 import {setReviewFormEvent, submitReview} from './review.js';
-import {getCookie, handleResponse} from './http.js';
-import {fetchPlaces, setViewDetailsButtonEvent, setFilterPlacesEvent, fetchPlaceDetails, getPlaceIdFromURL} from './places.js';
+import {getCookie} from './http.js';
+import {fetchPlaces, setFilterPlacesEvent, fetchPlaceDetails, getPlaceIdFromURL} from './places.js';
 
 
 document.addEventListener('DOMContentLoaded', () => {
 
     setLoginFormEvent();
+    setLogOutButtonEvent();
     if (window.location.href.startsWith("http://127.0.0.1:5000/add-review") || window.location.href.startsWith("http://127.0.0.1:5000/details?place=")) {
         console.log("add-review or details page")
         setReviewFormEvent();
@@ -21,7 +22,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 const loggedIn = checkAuthentication();
 setVisibleElements(!loggedIn, "login-link");
-
+setVisibleElements(loggedIn, "logout-button");
 
 
 
@@ -68,11 +69,17 @@ if (loginForm) {
 function setVisibleElements(loggedIn, id) {
     const element = document.getElementById(id);
     console.log(element)
-    if (loggedIn) {
-        console.log(id + " is visible");
-        element.style.display = 'block';
-} else {
-    console.log(id + " is hidden");
-    element.style.display = 'none';
-}
+    if (element) {
+
+
+        if (loggedIn) {
+            console.log(id + " is visible");
+            element.style.display = 'block';
+    } else {
+        console.log(id + " is hidden");
+        element.style.display = 'none';
+    }
+
+
+    }
 }

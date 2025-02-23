@@ -11,16 +11,17 @@
     <nav>
     <a href="http://127.0.0.1:5000"><img src="{{ url_for('static', filename='images/logo.png') }}" class="logo"/></a>
     <a href="http://127.0.0.1:5000/login"><button id="login-link" class="login-button">Login</button></a>
+    <button id="logout-button" >Log out</button>
 </nav>
 </header>
     <main>
         <form id="review-form">
             <h2>Add a Review</h2>
             <label for="place">Place:</label>
-            <input type="text" id="place" name="place" readonly>
+            <input type="text" id="place" name="place" required>
             
-            <label for="review">Review:</label>
-            <textarea id="review" name="review" required></textarea>
+            <label for="review-text">Review:</label>
+            <textarea id="review-text" name="review-text" required></textarea>
             <label for="country-filter">Rating</label>
                 <select id="rating">
                     <option value="1star">1</option>

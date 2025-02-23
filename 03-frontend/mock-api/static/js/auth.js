@@ -1,20 +1,15 @@
 import {getCookie} from './http.js';
-import {fetchPlaces} from './places.js';
 
 export function checkAuthentication() {
-    const token = getCookie('token');
-    const loginButton = document.getElementById('login-link');
 
+    const token = getCookie('token');
     if (!token) {
-        loginButton.style.display = 'block';
-       
+        return false
     } else {
-        loginButton.style.display = 'none';
-        // Fetch places data if the user is authenticated
-  
-        
+        return true;
     }
-}
+         
+    }
 
 
 

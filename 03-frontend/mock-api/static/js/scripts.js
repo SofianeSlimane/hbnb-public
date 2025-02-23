@@ -6,18 +6,6 @@ import {fetchPlaces, setViewDetailsButtonEvent, setFilterPlacesEvent, fetchPlace
 
 document.addEventListener('DOMContentLoaded', () => {
 
-   
-    const placeDetails = document.getElementById("place-details");
-    const queryString = getPlaceIdFromURL();
-
-    if (placeDetails){
-        console.log("I am in place details !")
-        if (queryString) {
-            console.log("I am in query string");
-            checkAuthentication2();
-            
-        }
-    }
     setLoginFormEvent();
     if (window.location.href.startsWith("http://127.0.0.1:5000/add-review")) {
 
@@ -30,96 +18,55 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 })
 
-  if (window.location.href === "http://127.0.0.1:5000/") {
-    fetchPlaces(getCookie('token'));
-  }
-  if (window.location.href.startsWith("http://127.0.0.1:5000/")){
-    checkAuthentication();
-  }
 
-  if (window.location.href.startsWith("http://127.0.0.1:5000/details/")){
-    console.log("heyy")
-    checkAuthentication();
+const loggedIn = checkAuthentication();
+setVisibleElements(!loggedIn, "login-link");
+
+if (window.location.href === "http://127.0.0.1:5000/") {
+fetchPlaces(getCookie('token'));
+}
+
+if (window.location.href.startsWith("http://127.0.0.1:5000/details")){
     const id = getPlaceIdFromURL();
-    const token = getCookie('token');
-    if (token) {
+    
+    fetchPlaceDetails(getCookie("token"), id);
 
-        fetchPlaceDetails(token, id);
-    } else {
+    setVisibleElements(loggedIn, "add-review");
+}
+
+if (window.location.href.startsWith("http://127.0.0.1:5000/add-review")) {
+    if (!getCookie('token')) {
         window.location.href = '/login';
     }
-  }
-
-    if (window.location.href.startsWith("http://127.0.0.1:5000/add-review")) {
-        if (!getCookie('token')) {
-            window.location.href = '/login';
-        }
-    }
-
-  
-function checkAuthentication2() {
-    console.log("Checking authentification");
-    const token = getCookie('token');
-    const addReviewSection = document.getElementById('add-review');
-    const loginLink = document.getElementById('login-link');
-    const placeId = getPlaceIdFromURL();
-    const placeDetails = document.getElementById("place-details");
-
-    if (!token) {
-        console.log("I don't have a token");
-        addReviewSection.style.display = 'none';
-        loginLink.style.display = 'block';
-        placeDetails.style.display = 'block';
-        fetchPlaceDetails(token, placeId);
-    } else {
-        console.log("I have a token")
-        addReviewSection.style.display = 'block';
-        loginLink.style.display = 'none';
-        placeDetails.style.display = 'block';
-        // Store the token for later use
-        fetchPlaceDetails(token, placeId);
-    }
 }
-
-
-
-
-
-function checkAuthentication3() {
-    const token = getCookie('token');
-    const loginLink = document.getElementById('login-link');
-      if (!token) {
-          console.log("No token");
-          window.location.href = '/';
-          loginLink.style.display = 'block';
-          
-      }
-      else {
-          console.log("Token present");
-        loginLink.style.display = 'none';
-      return token;
-      }
-}
-
-
 
 
 
 
 function setLoginFormEvent() {
-    const loginForm = document.getElementById('login-form');
-    if (loginForm) {
-    
-        loginForm.addEventListener('submit', async (event) => {
-            
-            event.preventDefault();
+const loginForm = document.getElementById('login-form');
+if (loginForm) {
 
-            const email = document.getElementById("email").value;
-            const password = document.getElementById("password").value;
+    loginForm.addEventListener('submit', async (event) => {
+        
+        event.preventDefault();
 
-            await loginUser(email, password);
-          
-        });
-    }
+        const email = document.getElementById("email").value;
+        const password = document.getElementById("password").value;
+
+        await loginUser(email, password);
+        
+    });
+}
 }
 
+function setVisibleElements(loggedIn, id) {
+    const element = document.getElementById(id);
+    console.log(element)
+    if (loggedIn) {
+        console.log(getCookie('token'));
+        element.style.display = 'block';
+} else {
+    element.style.display = 'none';
+}
+}

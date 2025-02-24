@@ -3,6 +3,12 @@ from flask import Flask, request, jsonify, render_template, make_response, redir
 from flask_jwt_extended import JWTManager, create_access_token, jwt_required, get_jwt_identity
 from flask_cors import CORS
 import json
+import os
+import base64
+from dotenv import load_dotenv
+
+
+load_dotenv("../../.env")
 
 
 app = Flask(__name__)
@@ -11,8 +17,16 @@ app.config.from_object('config.Config')
 jwt = JWTManager(app)
 CORS(app) # Enable CORS for all routes
 
-with open('data/users.json') as f:
-    users = json.load(f)
+# with open('data/users.json') as f:
+#     users = json.load(f)
+
+encoded_data = os.getenv('USERS_DATA')
+
+if encoded_data:
+    decoded_data = base64.b64decode(encoded_data).decode('utf-8')
+    users = json.loads(decoded_data)
+else:
+    users = []
 
 with open('data/places.json') as f:
     places = json.load(f)
@@ -39,7 +53,7 @@ def login():
     
     if not user:
         print(f"User not found or invalid password for: {email}")
-        return jsonify({"msg": "Invalid credentials"}), 401
+        return jsonify({"msg": users}), 401
 
     access_token = create_access_token(identity=user['id'])
     return jsonify(access_token=access_token)
@@ -126,4 +140,4 @@ def log_out():
     return response
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=False)

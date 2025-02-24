@@ -17,7 +17,7 @@ jwt = JWTManager(app)
 CORS(app) # Enable CORS for all routes
 
 
-encoded_data = os.getenv('USERS_DATA')
+encoded_data = os.environ.get('USERS_DATA')
 
 if encoded_data:
     decoded_data = base64.b64decode(encoded_data).decode('utf-8')

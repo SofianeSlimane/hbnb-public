@@ -3,22 +3,21 @@ import {setReviewFormEvent, submitReview} from './review.js';
 import {getCookie} from './http.js';
 import {fetchPlaces, setFilterPlacesEvent, fetchPlaceDetails, getPlaceIdFromURL} from './places.js';
 
+const fullPath = window.location.pathname + window.location.search;
 
 document.addEventListener('DOMContentLoaded', () => {
-
+    
     setLoginFormEvent();
     setLogOutButtonEvent();
-    if (window.location.href.startsWith("http://127.0.0.1:5000/add-review") || window.location.href.startsWith("http://127.0.0.1:5000/details?place=")) {
-        console.log("add-review or details page")
+    if (window.location.pathname.startsWith("/add-review") || fullPath.startsWith("/details?place=")) {
         setReviewFormEvent();
     }
-    if (window.location.href === "http://127.0.0.1:5000/") {
+    if (window.location.pathname === "/") {
         
         
         setFilterPlacesEvent();
     }
 })
-
 
 const loggedIn = checkAuthentication();
 setVisibleElements(!loggedIn, "login-link");
@@ -26,21 +25,18 @@ setVisibleElements(loggedIn, "logout-button");
 
 
 
-if (window.location.href === "http://127.0.0.1:5000/") {
-    console.log("fetching places");
+if (window.location.pathname === "/") {
     fetchPlaces(getCookie('token'));
 }
 
-if (window.location.href.startsWith("http://127.0.0.1:5000/details?place=")){
-    console.log("fetching place details");
+if (fullPath.startsWith("/details?place=")){
     const id = getPlaceIdFromURL();
     fetchPlaceDetails(getCookie("token"), id);
 
     setVisibleElements(loggedIn, "add-review");
 }
 
-if (window.location.href.startsWith("http://127.0.0.1:5000/add-review")) {
-    console.log("add-review page");
+if (fullPath.startsWith("/add-review")) {
     if (!getCookie('token')) {
         window.location.href = '/login';
     }
@@ -68,15 +64,12 @@ if (loginForm) {
 
 function setVisibleElements(loggedIn, id) {
     const element = document.getElementById(id);
-    console.log(element)
     if (element) {
 
 
         if (loggedIn) {
-            console.log(id + " is visible");
             element.style.display = 'block';
     } else {
-        console.log(id + " is hidden");
         element.style.display = 'none';
     }
 

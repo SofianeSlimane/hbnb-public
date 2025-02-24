@@ -14,8 +14,7 @@ export function checkAuthentication() {
 
 
 export async function loginUser(email, password) {
-    console.log("hello")
-  const response = await fetch('http://127.0.0.1:5000/login', {
+  const response = await fetch(window.location.origin + '/login', {
       method: 'POST',
       headers: {
           'Content-Type': 'application/json'
@@ -34,10 +33,9 @@ export async function loginUser(email, password) {
 
 export function setLogOutButtonEvent(){
     const logoutButton = checkAuthentication() ? document.getElementById('logout-button') : null;
-    console.log("logoutButton", logoutButton);
     if (logoutButton) {
         logoutButton.addEventListener('click', async () => {
-            const response = await fetch('http://127.0.0.1:5000/log-out', {
+            const response = await fetch(window.location.origin + '/log-out', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'

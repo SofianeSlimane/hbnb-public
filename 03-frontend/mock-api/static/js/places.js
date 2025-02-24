@@ -2,7 +2,7 @@ export async function fetchPlaces(token) {
     // Make a GET request to fetch places data
     // Include the token in the Authorization header
     // Handle the response and pass the data to displayPlaces function
-     fetch(" http://127.0.0.1:5000/places", {headers: {Authorization: `Bearer ${token}}`}})
+     fetch(window.location.origin + "/places", {headers: {Authorization: `Bearer ${token}}`}})
         .then(response => response.json())
         .then(jso =>  displayPlaces(jso))
         .catch((error) => {
@@ -30,7 +30,7 @@ export function displayPlaces(places) {
                                 <dt>Location:</dt>
                                 <dd> ${places[i].city_name}, ${places[i].country_name}</dd>
                             </dl>
-                            <a class="details-button" href="http://127.0.0.1:5000/details?place=${places[i].id}">View Details</a>`;
+                            <a class="details-button" href="${window.location.origin}/details?place=${places[i].id}">View Details</a>`;
        
 
         document.getElementById("places-list").append(article);
@@ -67,7 +67,7 @@ export async function fetchPlaceDetails(token, placeId) {
     // Make a GET request to fetch place details
     // Include the token in the Authorization header
     // Handle the response and pass the data to displayPlaceDetails function
-    await fetch(`http://127.0.0.1:5000/places/${placeId}`, {headers: {Authorization: `Bearer ${token}}`}})
+    await fetch(`${window.location.origin}/places/${placeId}`, {headers: {Authorization: `Bearer ${token}}`}})
     .then(response => response.json())
     .then(data => displayPlaceDetails(data))
     .catch("Could not retrive place details");
@@ -77,7 +77,6 @@ export function displayPlaceDetails(place) {
 // Clear the current content of the place details section
 // Create elements to display the place details (name, description, location, images)
 // Append the created elements to the place details section
-console.log(typeof place.country_name);
 document.getElementById("place-details").innerHTML = "";
 
 const article = document.createElement("article");

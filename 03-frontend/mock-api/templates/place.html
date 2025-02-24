@@ -9,18 +9,16 @@
 <body>
     <header>
         <nav>
-        <a href="http://127.0.0.1:5000"><img src="{{ url_for('static', filename='images/logo.png') }}" class="logo"/></a>
+        <a href="{{ url_for('home') }}"><img src="{{ url_for('static', filename='images/logo.png') }}" class="logo"/></a>
         <a href="/login" ><button id="login-link" class="login-button">Login</button></a>
         <button id="logout-button" >Log out</button>
     </nav>
     </header>
     <main>
         <section id="place-details">
-            <!-- Place details will be populated dynamically -->
             
         </section>
         <section id="reviews">
-            <!-- Reviews will be populated dynamically -->
        
 
         </section>

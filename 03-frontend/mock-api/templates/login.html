@@ -9,7 +9,7 @@
 <body>
     <header>
     <nav>
-        <a href="http://127.0.0.1:5000"><img src="{{ url_for('static', filename='images/logo.png') }}" class="logo"/></a>
+        <a href="{{ url_for('home') }}"><img src="{{ url_for('static', filename='images/logo.png') }}" class="logo"/></a>
         <a id="login-link" href="/login"><button class="login-button">Login</button></a>
     </nav>
     </header>

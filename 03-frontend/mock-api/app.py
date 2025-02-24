@@ -8,7 +8,6 @@ import base64
 from dotenv import load_dotenv
 
 
-load_dotenv("../../.env")
 
 
 app = Flask(__name__)
@@ -17,8 +16,6 @@ app.config.from_object('config.Config')
 jwt = JWTManager(app)
 CORS(app) # Enable CORS for all routes
 
-# with open('data/users.json') as f:
-#     users = json.load(f)
 
 encoded_data = os.getenv('USERS_DATA')
 

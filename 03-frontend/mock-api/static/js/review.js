@@ -3,15 +3,13 @@ import { getCookie } from "./http.js";
 import { getPlaceIdFromURL, getPlaceIdFromForm } from "./places.js";
 export function setReviewFormEvent(){
     const reviewForm = document.getElementById('review-form');
-        console.log("reviewForm", reviewForm);
         
   
         if (reviewForm) {
-            console.log("yes", reviewForm);
                 checkAuthentication();
                 reviewForm.addEventListener('submit', async (event) => {
                 event.preventDefault();
-                const placeId = window.location.href.startsWith("https://127.0.0.1:5000/details?place=") ? getPlaceIdFromURL() : getPlaceIdFromForm();
+                const placeId = window.location.href.startsWith(window.location.origin + "/details?place=") ? getPlaceIdFromURL() : getPlaceIdFromForm();
                 // Get review text from form
                 // Make AJAX request to submit review
                 // Handle the response
@@ -28,8 +26,7 @@ export async function submitReview(token, placeId, reviewText) {
             // Include the token in the Authorization header
             // Send placeId and reviewText in the request body
             // Handle the response
-            console.log("submitReview", token, placeId, reviewText);
-            const response = await fetch(`http://127.0.0.1:5000/places/${placeId}/reviews`, {
+            const response = await fetch(`${window.location.origin}/places/${placeId}/reviews`, {
                 method: 'POST',
                 headers: {
                   "Content-Type": 'application/json',
@@ -37,7 +34,6 @@ export async function submitReview(token, placeId, reviewText) {
                 },
                 body: JSON.stringify({ review: reviewText, rating: document.getElementById("rating").value[0]})
             });
-            console.log(response.body);
            if (response.ok) {
                window.location.href = "/details?place=" + placeId;
                
